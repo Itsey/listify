@@ -5,21 +5,20 @@ using Serilog;
 
 public partial class Build : NukeBuild {
 
-    // Examine is the well known step for post compilation, pre package and deploy. Arrange Construct [Examine] Package Release Test
-    public Target ExamineStep => _ => _
+
+    // TestStep is the well known post release integration test step. Arrange Construct Examine Package Release [Test]
+    public Target TestStep => _ => _
         .After(ConstructStep)
-        .Before(PackageStep, Wrapup)
-        .DependsOn(Initialise, ConstructStep)
-        .Triggers(UnitTest)
+        .Before(Wrapup)
+        .DependsOn(Initialise)
+        .Triggers(IntegrationTest)
         .Executes(() => {
             Log.Information("--> Examine Step <-- ");
         });
 
-    private Target UnitTest => _ => _
-      .After(ExamineStep)
-      .Before(PackageStep)
+    private Target IntegrationTest => _ => _
       .Executes(() => {
-          var testProjects = Solution.GetAllProjects("*.Test");
+          var testProjects = Solution.GetAllProjects("*.ITest");
           if (testProjects.Any()) {
               DotNetTasks.DotNetTest(s => s
                   .EnableNoRestore()

@@ -13,9 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "listify.build", "listify.bu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{28641C9F-7717-48BE-9B9B-8FBADBE9E409}"
 	ProjectSection(SolutionItems) = preProject
+		..\build\azdo_default_cd.yml = ..\build\azdo_default_cd.yml
 		..\build\azdo_default_ci.yml = ..\build\azdo_default_ci.yml
 		..\readme.md = ..\readme.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Listify.ITest", "Listify.ITest\Listify.ITest.csproj", "{621BF53D-7C6E-4FA5-9C2C-A561D3BA881F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListifySupport", "ListifySupport\ListifySupport.csproj", "{12E14145-CBA0-435C-AE09-7421E9DFA68A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +40,14 @@ Global
 		{2E14D6AA-3517-47A8-B288-9AD835689BDC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AB9B5F3-C09D-4C94-8A31-9CC59C8516BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6AB9B5F3-C09D-4C94-8A31-9CC59C8516BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{621BF53D-7C6E-4FA5-9C2C-A561D3BA881F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{621BF53D-7C6E-4FA5-9C2C-A561D3BA881F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{621BF53D-7C6E-4FA5-9C2C-A561D3BA881F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{621BF53D-7C6E-4FA5-9C2C-A561D3BA881F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E14145-CBA0-435C-AE09-7421E9DFA68A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E14145-CBA0-435C-AE09-7421E9DFA68A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E14145-CBA0-435C-AE09-7421E9DFA68A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E14145-CBA0-435C-AE09-7421E9DFA68A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

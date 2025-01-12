@@ -1,0 +1,14 @@
+{
+  "ListifyBuildConfig": {
+    "deployment-approach": "none",
+    "FtpDeployment": {
+      "Username": "XXXINVALIDXXX",
+      "Password": "XXXINVALIDXXX",
+      "Hostname": "XXXINVALIDXXX",
+      "ServerPath": "/"
+    }
+  },
+  "ListifyAppConfig": {
+    "PrimaryUrl": "http://localhost:5013/"
+  }
+}

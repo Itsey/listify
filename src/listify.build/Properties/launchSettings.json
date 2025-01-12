@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "listify.build": {
+      "commandName": "Project",
+      "commandLineArgs": "Initialise"
+    }
+  }
+}

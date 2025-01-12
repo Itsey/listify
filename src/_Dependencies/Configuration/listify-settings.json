@@ -1,0 +1,22 @@
+{
+  "ListifyBuildConfig": {
+    "MollyActiveMachines":  "DAVYJONES,UNICORN,BARBOSA",
+    "MollyRulesToken": "C:\\files\\code\\git\\mollycoddle\\src\\_Dependencies\\RulesFiles\\XXVERSIONNAMEXX\\defaultrules.mollyset",
+    "MollyPrimaryToken": "C:\\Files\\OneDrive\\Dev\\PrimaryFiles",
+    "BuildScratchDirectory": "%TEMP%\\_build\\vsfbld\\",
+    "VersioningToken": "D:\\Scratch\\_build\\vstore\\listify.vstore",
+    "deployment-approach": "none",
+    "FtpDeployment": {
+      "ActuallyDeployFiles": true,
+      "OfflineSiteDuringDeployment": true,
+      "Username": "XXXINVALIDXXX",
+      "Password": "XXXINVALIDXXX",
+      "Hostname": "XXXINVALIDXXX",
+      "ServerPath": "/",
+      "TimeoutInMins": 10
+    }
+  },
+  "ListifyAppConfig": {
+    "PrimaryUrl": "http://localhost:5013/"
+  }
+}

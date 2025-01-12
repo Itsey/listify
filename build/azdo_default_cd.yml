@@ -4,12 +4,12 @@
 #      To trigger manual generation invoke: nuke --generate-configuration AzurePipelines --host AzurePipelines
 # </auto-generated>
 
-trigger:
-  - trunk
+#trigger:
+#  - trunk
 
 stages:
-  - stage: ListifyCIBuild
-    displayName: 'Listify.Me CI Build'
+  - stage: ListifyCDBuild
+    displayName: 'Listify.Me CD Build'
     dependsOn: [  ]
 
     pool:
@@ -40,3 +40,18 @@ stages:
             displayName: 'Run: ExamineStep'
             inputs:
               script: '.\src\build.cmd ExamineStep UnitTest --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
+      
+          - task: CmdLine@2
+            displayName: 'Run: PackageStep'
+            inputs:
+              script: '.\src\build.cmd PackageStep --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
+
+          - task: CmdLine@2
+            displayName: 'Run: ReleaseStep'
+            inputs:
+              script: '.\src\build.cmd ReleaseStep --skip MollyCheck Clean ArrangeStep ConstructStep Compile PackageStep --root .\src\'
+
+          - task: CmdLine@2
+            displayName: 'Run: TestStep'
+            inputs:
+              script: '.\src\build.cmd TestStep --skip MollyCheck Clean ArrangeStep ConstructStep Compile ReleaseStep PackageStep --root .\src\'

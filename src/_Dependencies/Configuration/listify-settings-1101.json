@@ -1,0 +1,14 @@
+{
+  "ListifyBuildConfig": {
+    "deployment-approach": "ftp",
+    "FtpDeployment": {
+      "Username": "XXXINVALIDXXX",
+      "Password": "XXXINVALIDXXX",
+      "Server": "win8069.site4now.net",
+      "ServerPath": "/gravitas-ed/"
+    }
+  },
+  "ListifyAppConfig": {
+    "PrimaryUrl": "http://saspitsey-001-site4.dtempurl.com/"
+  } 
+}

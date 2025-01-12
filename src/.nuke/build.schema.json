@@ -30,11 +30,15 @@
         "ConstructStep",
         "ExamineStep",
         "Initialise",
+        "IntegrationTest",
         "MollyCheck",
         "PackageStep",
+        "PostReleaseWarmup",
         "ReleaseStep",
         "Restore",
-        "UnitTest"
+        "TestStep",
+        "UnitTest",
+        "Wrapup"
       ]
     },
     "Verbosity": {
