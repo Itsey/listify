@@ -17,7 +17,7 @@ stages:
 
     jobs:
       - job: Build
-        displayName: 'Initialise'
+        displayName: 'Listify CI Build.'
         dependsOn: [  ]
         steps:
          

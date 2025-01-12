@@ -22,13 +22,13 @@ Angel release is the first release, aimed at getting the CI/CD pipelines up and 
 
 #### Future Releases.
 
-Bealzebub. 😈
-Church. ⛪
-Fairy.🧚
-Ghost. 👻
-JackOLantern. 🎃
-Lizard. 🦎
-Ogre. 👹
+* Bealzebub. 😈
+* Church. ⛪
+* Fairy.🧚
+* Ghost. 👻
+* JackOLantern. 🎃
+* Lizard. 🦎
+* Ogre. 👹
 
 
 
@@ -38,9 +38,9 @@ Ogre. 👹
 
 #### PreReqs
 
-Visual Studio 2022, .net 9
-Jira Board Access [here](https://plisky.atlassian.net/jira/software/projects/LFY)
-nuke global tool [documentation here](https://nuke.build/docs/getting-started/installation)]
+Visual Studio 2022, .net 9    
+Jira Board Access [here](https://plisky.atlassian.net/jira/software/projects/LFY)   
+nuke global tool [documentation here](https://nuke.build/docs/getting-started/installation)]    
 
 #### Steps.
 

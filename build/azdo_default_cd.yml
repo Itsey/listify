@@ -4,8 +4,15 @@
 #      To trigger manual generation invoke: nuke --generate-configuration AzurePipelines --host AzurePipelines
 # </auto-generated>
 
-#trigger:
-#  - trunk
+
+schedules:
+- cron: "0 1 * * *"
+  displayName: Nightly Deployment.
+  branches:
+    include:
+    - trunk
+  always: false
+  batch: true
 
 stages:
   - stage: ListifyCDBuild
@@ -17,7 +24,7 @@ stages:
 
     jobs:
       - job: Build
-        displayName: 'Initialise'
+        displayName: 'Listify CD Build'
         dependsOn: [  ]
         steps:
          
