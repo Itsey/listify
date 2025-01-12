@@ -31,6 +31,7 @@ public partial class Build : NukeBuild {
           bool deployWebsite = true;
           bool deployAllNewFilesToSite = ftpDeployment.ActuallyDeployFiles;
           bool useAppOffline = ftpDeployment.OfflineSiteDuringDeployment;
+          bool skipWebContent = true;
 
           // Set up session options
           var sessionOptions = new SessionOptions {
@@ -45,7 +46,7 @@ public partial class Build : NukeBuild {
               session.SessionLogPath = Path.Combine(settings.ArtifactsDirectory, "winscp.log");
 
               int transferCount = 0;
-              int transferCountWriteFrequency = 25;
+              int transferCountWriteFrequency = 10;
               bool logProgress = false;
 
               session.FileTransferProgress += (sender, e) => {
@@ -72,6 +73,10 @@ public partial class Build : NukeBuild {
               var transferOptions = new TransferOptions();
               transferOptions.TransferMode = TransferMode.Binary;
               transferOptions.OverwriteMode = OverwriteMode.Overwrite;
+              if (skipWebContent) {
+                  transferOptions.FileMask = "|*/";
+                  Log.Warning("BuildContent Folder Skipped - Deployment Faster but no new JS or web content uploaded");
+              }
 
               TransferOperationResult transferResult;
 
@@ -104,6 +109,7 @@ public partial class Build : NukeBuild {
                   if (deployAllNewFilesToSite) {
                       // Upload all the files from publish directory
                       Log.Information("Uploading replacement site copy.");
+
                       transferResult = session.PutFiles(ad + "\\*.*", $"{ftpDeployment.ServerPath}/*.*", false, transferOptions);
                       transferResult.Check();
                   }

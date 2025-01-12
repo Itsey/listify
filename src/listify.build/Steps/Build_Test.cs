@@ -22,7 +22,7 @@ public partial class Build : NukeBuild {
           if (testProjects.Any()) {
               DotNetTasks.DotNetTest(s => s
                   .EnableNoRestore()
-                  .EnableNoBuild()
+                  //.EnableNoBuild()
                   .SetConfiguration(Configuration)
                   .SetProjectFile(testProjects.First().Directory));
           }

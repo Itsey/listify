@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>    
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
-    <PackageReference Include="Plisky.Listeners" Version="3.2.0" />
+    <PackageReference Include="Plisky.Diagnostics" Version="3.2.2" />
+    <PackageReference Include="Plisky.Listeners" Version="3.2.2" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ public record FtpDeployment {
     public required string Server { get; init; }
     public required string ServerPath { get; init; }
     public required int TimeoutInMins { get; init; }
-
+    public required bool SkipWebContentFolder { get; init; }
     public required bool ActuallyDeployFiles { get; init; }
     public required bool OfflineSiteDuringDeployment { get; init; }
 

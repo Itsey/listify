@@ -1,4 +1,5 @@
-﻿using Nuke.Common;
+﻿using System.Linq;
+using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
 
 public partial class Build : NukeBuild {
@@ -11,16 +12,18 @@ public partial class Build : NukeBuild {
         .Executes(() => {
             var ad = settings.ArtifactsDirectory / "publish";
 
+            var prj = Solution.Projects.First(x => x.Name == "Listify");
+
+
             // Definitely need to work out how to EnablePublishTrimmed current deployment is too large.
             DotNetTasks.DotNetPublish(s => s
-                .SetProject(Solution)
+                .SetProject(prj)
                 .SetConfiguration(Configuration)
                 .SetOutput(ad)
                 .SetNoRestore(true)
                 .SetNoBuild(true)
-                .SetVerbosity(DotNetVerbosity.detailed)
-            //.EnablePublishTrimmed()
-            //.SetArgumentConfigurator(a => a.Add("/p:PublishReadyToRun=true"))
+                .SetVerbosity(DotNetVerbosity.normal)
+                .SetSelfContained(false)
             );
         });
 }

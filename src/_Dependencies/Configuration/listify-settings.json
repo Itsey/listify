@@ -9,6 +9,7 @@
     "FtpDeployment": {
       "ActuallyDeployFiles": true,
       "OfflineSiteDuringDeployment": true,
+      "SkipWebContentFolder":  true,
       "Username": "XXXINVALIDXXX",
       "Password": "XXXINVALIDXXX",
       "Hostname": "XXXINVALIDXXX",
