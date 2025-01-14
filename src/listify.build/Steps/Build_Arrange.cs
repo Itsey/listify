@@ -35,10 +35,10 @@ public partial class Build : NukeBuild {
        .Executes(() => {
            Log.Information("Mollycoddle Structure Linting Starts.");
 
-           string mollyEnabledMachihnes = settings.Config.BuildSection.MollyActiveMachines;
+           string mollyEnabledMachines = settings.Config.BuildSection.MollyActiveMachines;
            bool molsActive = false;
            string thisMachine = System.Environment.MachineName.ToUpperInvariant();
-           foreach (string item in mollyEnabledMachihnes.Split(",")) {
+           foreach (string item in mollyEnabledMachines.Split(",")) {
                if (item.ToUpperInvariant() == thisMachine) {
                    b.Verbose.Log($"Molly Active - {thisMachine}");
                    molsActive = true;
