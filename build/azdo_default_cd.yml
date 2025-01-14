@@ -5,6 +5,8 @@
 # </auto-generated>
 
 
+trigger: none
+
 schedules:
 - cron: "0 1 * * *"
   displayName: Nightly Deployment.
