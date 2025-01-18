@@ -28,11 +28,14 @@ public partial class Build : NukeBuild {
     [Solution]
     private readonly Solution Solution;
 
+    [Parameter("NoSuccessNotify")]
+    readonly bool NoSuccessNotify = true;
+
     [Parameter("SimplifyLogging")]
     readonly bool SingleThreadedTrace = false;
 
     [Parameter("OverrideSkipWebContent")]
-    readonly bool? OverrideSkipWebContent = null;
+    readonly bool? OverrideForceWebContentDeployment = null;
 
     [Parameter("EnvironmentId")]
     readonly string EnvironmentId = "1101";
@@ -62,6 +65,9 @@ public partial class Build : NukeBuild {
             string wrked = string.Empty;
             if (IsSucceeding) {
                 wrked = "Succeeded";
+                if (NoSuccessNotify) {
+                    return;
+                }
             } else {
                 wrked = "Failed (";
                 FailedTargets.ForEach(x => {

@@ -19,13 +19,13 @@ public class Exploratory {
                 throw new InvalidOperationException("PrimaryURL not configured, unable to test application without correct configuration.");
             }
             siteURL = lc.AppSection.PrimaryUrl;
-        }
-        catch (InvalidOperationException) {
+
+        } catch (InvalidOperationException) {
             // The config files are not always copied correctly to the output directory.  As we only have one environment at the mo this workaround suffices.
             b.Error.Log("Unable to load configuration for integration tests - Workaround Established.");
             siteURL = "http://saspitsey-001-site4.dtempurl.com/";
         }
-
+        Console.WriteLine($"Testing Url {siteURL}");
         b.Info.Log($"TestURL {siteURL}");
     }
 

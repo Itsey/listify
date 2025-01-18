@@ -33,9 +33,9 @@ public partial class Build : NukeBuild {
           bool useAppOffline = ftpDeployment.OfflineSiteDuringDeployment;
           bool skipWebContent = ftpDeployment.SkipWebContentFolder;
 
-          if (OverrideSkipWebContent != null) {
-              Log.Information($"Overriding SkipWebContent with {OverrideSkipWebContent.Value}");
-              skipWebContent = OverrideSkipWebContent.Value;
+          if (OverrideForceWebContentDeployment != null) {
+              Log.Information($"Overriding SkipWebContent with {OverrideForceWebContentDeployment.Value}");
+              skipWebContent = !OverrideForceWebContentDeployment.Value;
           }
           // Set up session options
           var sessionOptions = new SessionOptions {
