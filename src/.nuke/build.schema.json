@@ -120,6 +120,25 @@
             "Release"
           ]
         },
+        "EnvironmentId": {
+          "type": "string",
+          "description": "EnvironmentId"
+        },
+        "NoSuccessNotify": {
+          "type": "boolean",
+          "description": "NoSuccessNotify"
+        },
+        "OverrideForceWebContentDeployment": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "OverrideSkipWebContent"
+        },
+        "SingleThreadedTrace": {
+          "type": "boolean",
+          "description": "SimplifyLogging"
+        },
         "Solution": {
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"

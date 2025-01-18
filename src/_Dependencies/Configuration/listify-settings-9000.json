@@ -1,0 +1,12 @@
+{
+  "ListifyBuildConfig": {
+    "deployment-approach": "ftp",
+    "FtpDeployment": {      
+      "Server": "win8069.site4now.net",
+      "ServerPath": "/site1/"
+    }
+  },
+  "ListifyAppConfig": {
+    "PrimaryUrl": "http://oldrope.net/"
+  } 
+}

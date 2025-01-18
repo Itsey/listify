@@ -29,4 +29,3 @@ public record FtpDeployment {
         return true;
     }
 }
-

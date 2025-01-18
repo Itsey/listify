@@ -14,7 +14,6 @@ public partial class Build : NukeBuild {
 
             var prj = Solution.Projects.First(x => x.Name == "Listify");
 
-
             // Definitely need to work out how to EnablePublishTrimmed current deployment is too large.
             DotNetTasks.DotNetPublish(s => s
                 .SetProject(prj)

@@ -5,9 +5,10 @@ using Microsoft.Playwright;
 using Plisky.Diagnostics;
 
 public class Exploratory {
-    Bilge b;
+    private Bilge b;
+
     // These are sample Integration tests to enable the CD pipeline to test deployment succeeded.
-    string siteURL;
+    private string siteURL;
 
     public Exploratory() {
         b = new Bilge("integration-tests");
@@ -19,13 +20,12 @@ public class Exploratory {
                 throw new InvalidOperationException("PrimaryURL not configured, unable to test application without correct configuration.");
             }
             siteURL = lc.AppSection.PrimaryUrl;
-        }
-        catch (InvalidOperationException) {
+        } catch (InvalidOperationException) {
             // The config files are not always copied correctly to the output directory.  As we only have one environment at the mo this workaround suffices.
             b.Error.Log("Unable to load configuration for integration tests - Workaround Established.");
             siteURL = "http://saspitsey-001-site4.dtempurl.com/";
         }
-
+        Console.WriteLine($"Testing Url {siteURL}");
         b.Info.Log($"TestURL {siteURL}");
     }
 
@@ -53,5 +53,4 @@ public class Exploratory {
         string? txt = await page.GetByTestId("home-releasename").TextContentAsync();
         Assert.StartsWith("👼Angel Release", txt);
     }
-
 }

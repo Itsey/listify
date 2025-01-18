@@ -1,6 +1,6 @@
 {
   "ListifyBuildConfig": {
-    "MollyActiveMachines":  "DAVYJONES,UNICORN,BARBOSA",
+    "MollyActiveMachines": "DAVYJONES,UNICORN,BARBOSA",
     "MollyRulesToken": "C:\\files\\code\\git\\mollycoddle\\src\\_Dependencies\\RulesFiles\\XXVERSIONNAMEXX\\defaultrules.mollyset",
     "MollyPrimaryToken": "C:\\Files\\OneDrive\\Dev\\PrimaryFiles",
     "BuildScratchDirectory": "%TEMP%\\_build\\vsfbld\\",
@@ -9,7 +9,7 @@
     "FtpDeployment": {
       "ActuallyDeployFiles": true,
       "OfflineSiteDuringDeployment": true,
-      "SkipWebContentFolder":  true,
+      "SkipWebContentFolder": true,
       "Username": "XXXINVALIDXXX",
       "Password": "XXXINVALIDXXX",
       "Hostname": "XXXINVALIDXXX",

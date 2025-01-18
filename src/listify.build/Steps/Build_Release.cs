@@ -31,8 +31,12 @@ public partial class Build : NukeBuild {
           bool deployWebsite = true;
           bool deployAllNewFilesToSite = ftpDeployment.ActuallyDeployFiles;
           bool useAppOffline = ftpDeployment.OfflineSiteDuringDeployment;
-          bool skipWebContent = true;
+          bool skipWebContent = ftpDeployment.SkipWebContentFolder;
 
+          if (OverrideForceWebContentDeployment != null) {
+              Log.Information($"Overriding SkipWebContent with {OverrideForceWebContentDeployment.Value}");
+              skipWebContent = !OverrideForceWebContentDeployment.Value;
+          }
           // Set up session options
           var sessionOptions = new SessionOptions {
               Protocol = Protocol.Ftp,
@@ -61,8 +65,7 @@ public partial class Build : NukeBuild {
                       if (transferCount % transferCountWriteFrequency == 0) {
                           Log.Information($"Uploaded {transferCount} files to. Most Recent {e.FileName}");
                       }
-                  }
-                  else {
+                  } else {
                       Log.Error("Error uploading {0} to {1} - {2}", e.FileName, e.Destination, e.Error);
                   }
               };
@@ -121,8 +124,7 @@ public partial class Build : NukeBuild {
                       var rea = session.RemoveFile($"{ftpDeployment.ServerPath}/app_offline.htm");
                       if (rea.Error != null) {
                           Log.Error("Error removing app_offline.htm - {0}", rea.Error);
-                      }
-                      else {
+                      } else {
                           Log.Information("Live Site back ONLINE.");
                       }
                   }
@@ -141,8 +143,7 @@ public partial class Build : NukeBuild {
            f.Wait();
            if (f.Result.StatusCode == (int)System.Net.HttpStatusCode.OK) {
                Log.Information("Warmup of site successful.");
-           }
-           else {
+           } else {
                Log.Error("Warmup of site failed >> SITE POTENTIALLY DOWN.");
            }
        });

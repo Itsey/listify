@@ -1,18 +1,16 @@
 ﻿[assembly: Xunit.TestFramework("Listify.ITest.XunitAutoTraceFixture", "Listify.ITest")]
-namespace Listify.ITest;
 
+namespace Listify.ITest;
 
 using global::Plisky.Diagnostics;
 using global::Plisky.Diagnostics.Listeners;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-
 public class XunitAutoTraceFixture : XunitTestFramework {
 
     public XunitAutoTraceFixture(IMessageSink messageSink)
         : base(messageSink) {
-
         bool trace = true;
         if (trace) {
             Bilge.AddHandler(new TCPHandler(new TCPHandlerOptions("127.0.0.1", 9060, true)), HandlerAddOptions.SingleType);
@@ -26,4 +24,3 @@ public class XunitAutoTraceFixture : XunitTestFramework {
         base.Dispose();
     }
 }
-

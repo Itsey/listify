@@ -4,6 +4,13 @@
 #      To trigger manual generation invoke: nuke --generate-configuration AzurePipelines --host AzurePipelines
 # </auto-generated>
 
+parameters:
+- name: EnvironmentIdentifier
+  type: string
+  default: "1101"
+- name: ForceWebContentDeploy
+  type: boolean
+  default: false
 
 trigger: none
 
@@ -33,34 +40,34 @@ stages:
           - task: CmdLine@2
             displayName: 'Run: Initialise'
             inputs:
-              script: '.\src\build.cmd Initialise --skip --root .\src\'              
+              script: '.\src\build.cmd Initialise --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip --root .\src\'              
       
           - task: CmdLine@2
             displayName: 'Run: ArrangeStep'
             inputs:
-              script: '.\src\build.cmd ArrangeStep Clean MollyCheck --root .\src\'
+              script: '.\src\build.cmd ArrangeStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip Clean MollyCheck --root .\src\'
 
           - task: CmdLine@2
             displayName: 'Run: ConstructStep'
             inputs:
-              script: '.\src\build.cmd ConstructStep Compile --skip MollyCheck Clean ArrangeStep --root .\src\'
+              script: '.\src\build.cmd ConstructStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip MollyCheck Clean ArrangeStep --root .\src\'
       
           - task: CmdLine@2
             displayName: 'Run: ExamineStep'
             inputs:
-              script: '.\src\build.cmd ExamineStep UnitTest --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
+              script: '.\src\build.cmd ExamineStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
       
           - task: CmdLine@2
             displayName: 'Run: PackageStep'
             inputs:
-              script: '.\src\build.cmd PackageStep --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
+              script: '.\src\build.cmd PackageStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
 
           - task: CmdLine@2
             displayName: 'Run: ReleaseStep'
             inputs:
-              script: '.\src\build.cmd ReleaseStep --skip MollyCheck Clean ArrangeStep ConstructStep Compile PackageStep --root .\src\'
+              script: '.\src\build.cmd ReleaseStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip MollyCheck Clean ArrangeStep ConstructStep Compile PackageStep --root .\src\'
 
           - task: CmdLine@2
             displayName: 'Run: TestStep'
             inputs:
-              script: '.\src\build.cmd TestStep --skip MollyCheck Clean ArrangeStep ConstructStep Compile ReleaseStep PackageStep --root .\src\'
+              script: '.\src\build.cmd TestStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --NoSuccessNotify false --skip MollyCheck Clean ArrangeStep ConstructStep Compile ReleaseStep PackageStep --root .\src\'
