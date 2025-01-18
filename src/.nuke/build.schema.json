@@ -120,6 +120,17 @@
             "Release"
           ]
         },
+        "EnvironmentId": {
+          "type": "string",
+          "description": "EnvironmentId"
+        },
+        "OverrideSkipWebContent": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "OverrideSkipWebContent"
+        },
         "Solution": {
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"

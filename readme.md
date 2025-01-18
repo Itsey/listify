@@ -40,7 +40,7 @@ Angel release is the first release, aimed at getting the CI/CD pipelines up and 
 
 Visual Studio 2022, .net 9    
 Jira Board Access [here](https://plisky.atlassian.net/jira/software/projects/LFY)   
-nuke global tool [documentation here](https://nuke.build/docs/getting-started/installation)]    
+nuke global tool [documentation here](https://nuke.build/docs/getting-started/installation)    
 
 #### Steps.
 
@@ -48,7 +48,7 @@ Clone repository.
 Open solution \sln\listify.sln.
 Set "Listify" as startup project and run.( VS 2022 Enterprise tested).
 
-🎵 The solution sets listify.build to not compile in the default configuration, therefore to make changes to and compile the build engine you must right click on it and compile it directly.
+🎵 The solution sets listify.build to not compile in the default configuration, therefore to make changes to and compile the build engine you must right click on it and compile it directly.    
 🎵 The first time through for a playwrite test you need to execute playwright.ps1 in the build directory to get the browser drivers down.
 
 ### Build and CI.
@@ -59,19 +59,22 @@ Standard primary steps are ArrangeStep, ConstructStep, ExamineStep, PackageStep,
 Each is incremental and builds on the previous step.  Arrange - initialise, Construct Build, Examine Test and Quality Check, Package - create a deployable package, Release - deploy the package.
 Therefore to build and test the project run "nuke Examine" from the \src folder this is the fastest form of feedback loop.
 
-CI is configured for the trunk branch.
+The TestStep is not incremental and therefore can be run in isolation for a regression test against the environment.
 
+CI is configured for the trunk branch.
+CD is scheduled for the trunk branch overnight.  It can be run manually by running the "nuke ReleaseStep" command from the \src folder.
 
 ### Environments & Configuration
 1100 - [ListifyConfig1100] - Local Dev Environment ( Per Machine )  
 1101 - [ListifyConfig1101] - Integrated development environment.   http://saspitsey-001-site4.dtempurl.com/
 
-Environment configuration is done through four forms of settings file.
-_Dependencies\Configuration\Listify-Settings.json.       - Baseline general settings for all environments.
-_Dependencies\Configuration\Listify-Settings-XXXX.json   - Environment specific settings.
-%PLISKYAPPROOT%\config\listify-settings-XXXX.donotcommit - Environment specific secrets.
-%PLISKYAPPROOT%\config\listify-MACHINENAME-Override.json - Machine specific settings.
+Environment configuration is done through a series of json files loaded in the following order.    
+_Dependencies\Configuration\Listify-Settings.json.       - Baseline general settings for all environments.    
+_Dependencies\Configuration\Listify-Settings-XXXX.json   - Environment specific settings.    
+%PLISKYAPPROOT%\config\listify-settings.donotcommit		 - Cross Environment secrets.    
+%PLISKYAPPROOT%\config\listify-settings-XXXX.donotcommit - Environment specific secrets.    
+%PLISKYAPPROOT%\config\listify-MACHINENAME-Override.json - Machine specific settings.    
 
-Environment variable set called PLISKYAPPROOT should have a folder underneath called "config", this can be anwhwere local on the machine.   
-Secrets should be stored there in a file named listify-secrets.donotcommit.   Contact project authors for secrets.
+Environment variable set called PLISKYAPPROOT should have a folder underneath called "config", this can be anwhwere local on the machine.    
+
 
