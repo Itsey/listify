@@ -1,8 +1,9 @@
 {
   "ListifyBuildConfig": {
     "MollyActiveMachines": "DAVYJONES,UNICORN,BARBOSA",
-    "MollyRulesToken": "C:\\files\\code\\git\\mollycoddle\\src\\_Dependencies\\RulesFiles\\XXVERSIONNAMEXX\\defaultrules.mollyset",
-    "MollyPrimaryToken": "C:\\Files\\OneDrive\\Dev\\PrimaryFiles",
+    "MollyRulesVersion": "latest",
+    "MollyRulesToken": "%NEXUSCONFIG%[R::plisky[L::http://20.254.177.59:8081/repository/plisky/molly/XXVERSIONNAMEXX/defaultrules.mollyset",
+    "MollyPrimaryToken": "%NEXUSCONFIG%[R::plisky[L::http://20.254.177.59:8081/repository/plisky/primaryfiles/XXVERSIONNAMEXX/",
     "BuildScratchDirectory": "%TEMP%\\_build\\vsfbld\\",
     "VersioningToken": "D:\\Scratch\\_build\\vstore\\listify.vstore",
     "deployment-approach": "none",

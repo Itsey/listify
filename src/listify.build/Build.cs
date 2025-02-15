@@ -56,25 +56,26 @@ public partial class Build : NukeBuild {
         });
 
     protected override void OnBuildFinished() {
-        string pth = settings.Config.BuildSection.DiscordHookUrl;
-        if (!string.IsNullOrWhiteSpace(pth)) {
-            string lb = Build.IsLocalBuild ? $"Local [{settings.Config.ExecutingMachineName}]" : $"Server [{settings.Config.ExecutingMachineName}]";
+        string discordHook = settings.Config.BuildSection.DiscordHookUrl;
+        if (!string.IsNullOrWhiteSpace(discordHook)) {
 
-            string wrked = string.Empty;
+            string buildTypeMessage = Build.IsLocalBuild ? $"Local [{settings.Config.ExecutingMachineName}]" : $"Server [{settings.Config.ExecutingMachineName}]";
+
+            string buildSuccessMessage = string.Empty;
             if (IsSucceeding) {
-                wrked = "Succeeded";
+                buildSuccessMessage = "Succeeded";
                 if (NoSuccessNotify) {
                     return;
                 }
             } else {
-                wrked = "Failed (";
+                buildSuccessMessage = "Failed (";
                 FailedTargets.ForEach(x => {
-                    wrked += x.Name + ", ";
+                    buildSuccessMessage += x.Name + ", ";
                 });
-                wrked += ")";
+                buildSuccessMessage += ")";
             }
-            var ressy = pth.PostJsonAsync(new {
-                content = $"{lb} Listify Build {wrked} for {EnvironmentId} @ {DateTime.Now.Hour}:{DateTime.Now.Minute}"
+            var ressy = discordHook.PostJsonAsync(new {
+                content = $"{buildTypeMessage} Listify Build {buildSuccessMessage} for {EnvironmentId} @ {DateTime.Now.Hour}:{DateTime.Now.Minute}"
             });
             ressy.Wait();
         } else {

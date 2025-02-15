@@ -8,4 +8,6 @@ public record ListifyBuildConfig {
     public required string MollyActiveMachines { get; init; }
     public required string MollyRulesToken { get; init; }
     public required string MollyPrimaryToken { get; init; }
+    public required string MollyRulesVersion { get; set; }
 }
+

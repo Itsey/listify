@@ -1,4 +1,7 @@
-﻿using Nuke.Common;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
+using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tools.DotNet;
 using Plisky.Nuke.Fusion;
@@ -31,34 +34,47 @@ public partial class Build : NukeBuild {
 
     private Target MollyCheck => _ => _
        .After(Clean, ArrangeStep)
+       .DependsOn(Initialise)
        .Before(ConstructStep)
        .Executes(() => {
            Log.Information("Mollycoddle Structure Linting Starts.");
 
-           string mollyEnabledMachines = settings.Config.BuildSection.MollyActiveMachines;
-           bool molsActive = false;
-           string thisMachine = System.Environment.MachineName.ToUpperInvariant();
-           foreach (string item in mollyEnabledMachines.Split(",")) {
-               if (item.ToUpperInvariant() == thisMachine) {
-                   b.Verbose.Log($"Molly Active - {thisMachine}");
-                   molsActive = true;
-                   break;
+           var mcOk = ValidateMollySettings(settings?.Config?.BuildSection?.MollyRulesToken, GitRepository.LocalDirectory.Exists());
+           if (mcOk != ValidationResult.Success) {
+               Log.Error("Mollycoddle Structure Linting Skipped - Validation Failed.");
+               foreach (string item in mcOk.MemberNames) {
+                   Log.Error(item);
                }
-           }
-
-           //TODO: Bug LFY-8. https://plisky.atlassian.net/browse/LFY-8
-           if (!molsActive) {
-               Log.Information("Mollycoddle Structure Linting Skipped - Machine Wide Disablement.");
                return;
            }
 
+           Log.Verbose($"MC ({settings.Config.BuildSection.MollyRulesToken}) ({settings.Config.BuildSection.MollyPrimaryToken}) ({GitRepository.LocalDirectory})");
            var mc = new MollycoddleTasks();
            mc.PerformScan(s => s
                .AddRuleHelp(true)
+               .AddRulesetVersion("latest")
                .SetRulesFile(settings.Config.BuildSection.MollyRulesToken)
                .SetPrimaryRoot(settings.Config.BuildSection.MollyPrimaryToken)
                .SetDirectory(GitRepository.LocalDirectory));
 
            Log.Information("Mollycoddle Structure Linting Completes.");
        });
+
+    [Pure]
+    private ValidationResult ValidateMollySettings(string? mollyRulesToken, bool localDirectoryExists) {
+        var errors = new List<string>();
+
+        if (!localDirectoryExists) {
+            errors.Add("Mollycoddle: Local Working Directory Error.  Directory Does Not Exist.");
+        }
+        if (string.IsNullOrWhiteSpace(mollyRulesToken)) {
+            errors.Add("Mollycoddle: Ruleset Initialisation Token Not Set.");
+        }
+
+        if (errors.Count > 0) {
+            return new ValidationResult("Mollycoddle: Parameter Validation Failed.", errors);
+        }
+        return ValidationResult.Success;
+
+    }
 }

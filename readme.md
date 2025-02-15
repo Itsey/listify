@@ -77,4 +77,5 @@ _Dependencies\Configuration\Listify-Settings-XXXX.json   - Environment specific 
 
 Environment variable set called PLISKYAPPROOT should have a folder underneath called "config", this can be anwhwere local on the machine.    
 
-
+Required for the build to work is this environment variable.  Contact project authors for username and password.
+NEXUSCONFIG=[NEXUS][U::<username>[P::<password>

@@ -34,9 +34,9 @@ stages:
           - task: CmdLine@2
             displayName: 'Run: ConstructStep'
             inputs:
-              script: '.\src\build.cmd ConstructStep Compile --skip MollyCheck Clean ArrangeStep --root .\src\'
+              script: '.\src\build.cmd ConstructStep Compile --skip ArrangeStep --root .\src\'
       
           - task: CmdLine@2
             displayName: 'Run: ExamineStep'
             inputs:
-              script: '.\src\build.cmd ExamineStep UnitTest --skip MollyCheck Clean ArrangeStep ConstructStep Compile --root .\src\'
+              script: '.\src\build.cmd ExamineStep UnitTest --skip ArrangeStep ConstructStep --root .\src\'
