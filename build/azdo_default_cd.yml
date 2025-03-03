@@ -13,6 +13,13 @@ parameters:
   default: false
 
 trigger: none
+pr: none
+
+resources:
+  pipelines:
+  - pipeline: Listify-CI
+    source: Listify-CI
+    branch: trunk
 
 schedules:
 - cron: "0 1 * * *"
@@ -35,6 +42,7 @@ stages:
       - job: Build
         displayName: 'Listify CD Build'
         dependsOn: [  ]
+        condition: eq(resources.pipeline['Listify-CI'].runStatus, 'succeeded')
         steps:
          
           - task: CmdLine@2
@@ -45,7 +53,7 @@ stages:
           - task: CmdLine@2
             displayName: 'Run: ArrangeStep'
             inputs:
-              script: '.\src\build.cmd ArrangeStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip Clean MollyCheck --root .\src\'
+              script: '.\src\build.cmd ArrangeStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip --root .\src\'
 
           - task: CmdLine@2
             displayName: 'Run: ConstructStep'
