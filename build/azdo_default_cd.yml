@@ -15,12 +15,6 @@ parameters:
 trigger: none
 pr: none
 
-resources:
-  pipelines:
-  - pipeline: Listify-CI
-    source: Listify-CI
-    branch: trunk
-
 schedules:
 - cron: "0 1 * * *"
   displayName: Nightly Deployment.
@@ -42,7 +36,6 @@ stages:
       - job: Build
         displayName: 'Listify CD Build'
         dependsOn: [  ]
-        condition: eq(resources.pipeline['Listify-CI'].runStatus, 'succeeded')
         steps:
          
           - task: CmdLine@2
