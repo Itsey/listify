@@ -46,7 +46,7 @@ stages:
           - task: CmdLine@2
             displayName: 'Run: ArrangeStep'
             inputs:
-              script: '.\src\build.cmd ArrangeStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --skip --root .\src\'
+              script: '.\src\build.cmd ArrangeStep --EnvironmentId ${{ parameters.EnvironmentIdentifier }} --OverrideSkipWebContent ${{ parameters.ForceWebContentDeploy }} --root .\src\'
 
           - task: CmdLine@2
             displayName: 'Run: ConstructStep'
