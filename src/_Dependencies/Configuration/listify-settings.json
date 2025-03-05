@@ -5,7 +5,7 @@
     "MollyRulesToken": "%NEXUSCONFIG%[R::plisky[L::http://51.141.43.222:8081/repository/plisky/molly/XXVERSIONNAMEXX/defaultrules.mollyset",
     "MollyPrimaryToken": "%NEXUSCONFIG%[R::plisky[L::http://51.141.43.222:8081/repository/plisky/primaryfiles/XXVERSIONNAMEXX/",
     "BuildScratchDirectory": "%TEMP%\\_build\\vsfbld\\",
-    "VersioningToken": "D:\\Scratch\\_build\\vstore\\listify.vstore",
+    "VersioningToken": "%NEXUSCONFIG%[R::plisky[L::http://51.141.43.222:8081/repository/plisky/vstore/listify.vstore",
     "deployment-approach": "none",
     "FtpDeployment": {
       "ActuallyDeployFiles": true,

@@ -28,17 +28,20 @@ public partial class Build : NukeBuild {
     [Solution]
     private readonly Solution Solution;
 
-    [Parameter("NoSuccessNotify")]
+    [Parameter("Disables alert notifcaiton when a build is successful.", Name = "NoSuccessNotify")]
     private readonly bool NoSuccessNotify = true;
 
-    [Parameter("SimplifyLogging")]
+    [Parameter("Uses a simpler logging approach that adds stability if required.", Name = "SimplifyLogging")]
     private readonly bool SingleThreadedTrace = false;
 
-    [Parameter("OverrideSkipWebContent")]
+    [Parameter("Ensures that all web content is deployed.", Name = "OverrideSkipWebContent")]
     private readonly bool? OverrideForceWebContentDeployment = null;
 
-    [Parameter("EnvironmentId")]
+    [Parameter("Specifies the environment identifier to use for deployments.", Name = "EnvironmentId")]
     private readonly string EnvironmentId = "1101";
+
+    [Parameter("Specifies a quick version command for the versioning quick step", Name = "QuickVersion")]
+    readonly string QuickVersion = "";
 
     private AbsolutePath SourceDirectory => RootDirectory / "src";
     private AbsolutePath ArtifactsDirectory;

@@ -24,6 +24,7 @@
     "ExecutableTarget": {
       "type": "string",
       "enum": [
+        "ApplyVersion",
         "ArrangeStep",
         "Clean",
         "Compile",
@@ -35,9 +36,9 @@
         "PackageStep",
         "PostReleaseWarmup",
         "ReleaseStep",
-        "Restore",
         "TestStep",
         "UnitTest",
+        "VersionQuickStep",
         "Wrapup"
       ]
     },
@@ -122,18 +123,22 @@
         },
         "EnvironmentId": {
           "type": "string",
-          "description": "EnvironmentId"
+          "description": "Specifies the environment identifier to use for deployments"
         },
         "NoSuccessNotify": {
           "type": "boolean",
           "description": "NoSuccessNotify"
         },
-        "OverrideForceWebContentDeployment": {
+        "OverrideSkipWebContent": {
           "type": [
             "boolean",
             "null"
           ],
-          "description": "OverrideSkipWebContent"
+          "description": "Ensures that all web content is deployed"
+        },
+        "QuickVersion": {
+          "type": "string",
+          "description": "Specifies a quick version command for the versioning quick step"
         },
         "SingleThreadedTrace": {
           "type": "boolean",

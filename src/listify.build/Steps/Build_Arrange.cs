@@ -50,12 +50,16 @@ public partial class Build : NukeBuild {
 
            Log.Verbose($"MC ({settings.Config.BuildSection.MollyRulesToken}) ({settings.Config.BuildSection.MollyPrimaryToken}) ({GitRepository.LocalDirectory})");
            var mc = new MollycoddleTasks();
+
+           string formatter = IsLocalBuild ? "plain" : "azdo";
            mc.PerformScan(s => s
                .AddRuleHelp(true)
                .AddRulesetVersion("latest")
                .SetRulesFile(settings.Config.BuildSection.MollyRulesToken)
                .SetPrimaryRoot(settings.Config.BuildSection.MollyPrimaryToken)
+               .SetFormatter(formatter)
                .SetDirectory(GitRepository.LocalDirectory));
+
 
            Log.Information("Mollycoddle Structure Linting Completes.");
        });
