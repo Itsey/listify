@@ -1,7 +1,7 @@
-﻿**/listify/src/**/listify.csproj|StdAssembly
-**/listify/src/**/listify.csproj|StdInformational
-**/listify/src/**/listify.csproj|StdFile
-**/listify/src/**/listifysupport.csproj|StdAssembly
-**/listify/src/**/listifysupport.csproj|StdInformational
-**/listify/src/**/listifysupport.csproj|StdFile
-**/listify/src/listify/views/shared/_layout.cshtml|TextFile
+﻿**/src/**/listify.csproj|StdAssembly
+**/src/**/listify.csproj|StdInformational
+**/src/**/listify.csproj|StdFile
+**/src/**/listifysupport.csproj|StdAssembly
+**/src/**/listifysupport.csproj|StdInformational
+**/src/**/listifysupport.csproj|StdFile
+**/src/listify/views/shared/_layout.cshtml|TextFile

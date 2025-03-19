@@ -1,4 +1,5 @@
-﻿using Nuke.Common;
+﻿using System;
+using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
 using Plisky.Nuke.Fusion;
 using Serilog;
@@ -13,6 +14,32 @@ public partial class Build : NukeBuild {
         .DependsOn(Initialise, ArrangeStep)
         .Executes(() => {
         });
+
+    public Target QueryNextVersion => _ => _
+      .After(ConstructStep)
+      .DependsOn(Initialise)
+      .Before(Compile)
+      .Executes(() => {
+
+          if (settings == null) {
+              Log.Error("Build>ApplyVersion>Settings is null.");
+              throw new InvalidOperationException("The settings must be set");
+          }
+
+          if (Solution == null) {
+              Log.Error("Build>ApplyVersion>Solution is null.");
+              throw new InvalidOperationException("The solution must be set");
+          }
+
+
+          var vc = new VersonifyTasks();
+          vc.PassiveCommand(s => s
+          .SetVersionPersistanceValue(settings.Config.BuildSection.VersioningToken)
+          .SetOutputStyle("con-nf")
+          .SetRoot(Solution.Directory));
+
+          Log.Information($"Version Is:{vc.VersionLiteral}");
+      });
 
     public Target VersionQuickStep => _ => _
       .After(ConstructStep)
@@ -67,9 +94,16 @@ public partial class Build : NukeBuild {
                .AsDryRun(dryRun)
            );
 
+           ActiveVersion = vc.VersionLiteral;
+           ActiveReleaseName = vc.ReleaseName;
+           ActiveShortVersion = vc.ShortVersion;
 
 
        });
+
+    public string ActiveVersion { get; private set; }
+    public string ActiveReleaseName { get; private set; }
+    public string ActiveShortVersion { get; private set; }
 
     private Target Compile => _ => _
         .Before(ExamineStep)

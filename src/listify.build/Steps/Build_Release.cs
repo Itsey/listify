@@ -2,6 +2,7 @@
 using System.IO;
 using Flurl.Http;
 using Nuke.Common;
+using Nuke.Common.Tools.Git;
 using Serilog;
 using WinSCP;
 
@@ -131,6 +132,30 @@ public partial class Build : NukeBuild {
               }
 
               session.Close();
+          }
+      });
+
+
+    public Target PostReleaseTag => _ => _ // This is a placeholder for a future step
+      .After(ReleaseStep)
+      .DependsOn(Initialise)
+      .Executes(() => {
+          Log.Information("PostRelease >> Apply Git Tag");
+
+          if (IsSucceeding && !string.IsNullOrEmpty(ActiveVersion)) {
+              Log.Information("Applying Git Tag");
+
+              string vText;
+              if (!string.IsNullOrEmpty(ActiveReleaseName)) {
+                  vText = $"Release {ActiveReleaseName} - {ActiveVersion}";
+              } else {
+                  vText = $"Release {ActiveVersion}";
+              }
+              GitTasks.Git($"tag -a {ActiveVersion} -m \"" + vText + "\"");
+
+              GitTasks.Git("push --tags");
+          } else {
+              Log.Information("No version number, skipping Tag");
           }
       });
 

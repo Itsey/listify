@@ -35,6 +35,7 @@
         "MollyCheck",
         "PackageStep",
         "PostReleaseWarmup",
+        "QueryNextVersion",
         "ReleaseStep",
         "TestStep",
         "UnitTest",
@@ -127,7 +128,7 @@
         },
         "NoSuccessNotify": {
           "type": "boolean",
-          "description": "NoSuccessNotify"
+          "description": "Disables alert notifcaiton when a build is successful"
         },
         "OverrideSkipWebContent": {
           "type": [
@@ -140,9 +141,9 @@
           "type": "string",
           "description": "Specifies a quick version command for the versioning quick step"
         },
-        "SingleThreadedTrace": {
+        "SimplifyLogging": {
           "type": "boolean",
-          "description": "SimplifyLogging"
+          "description": "Uses a simpler logging approach that adds stability if required"
         },
         "Solution": {
           "type": "string",
