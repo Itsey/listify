@@ -6,18 +6,15 @@ using Plisky.Diagnostics;
 public class ListifyConfig {
     public Bilge b = new("Listify-Model-Config");
 
-    public ListifyAppConfig AppSection { get; set; }
-    public ListifyBuildConfig BuildSection { get; set; }
-    public string ArtefactsDirecory { get; set; }
-    public string ExecutingMachineName { get; set; }
+    public ListifyAppConfig? AppSection { get; set; }
+    public ListifyBuildConfig? BuildSection { get; set; }
+    public string? ArtefactsDirecory { get; set; }
+    public string? ExecutingMachineName { get; set; }
+    public IConfigurationRoot? ActiveConfig { get; set; }
+
 
     internal ListifyConfig() {
-        /*
-               settings.VersioningPersistanceToken = settings.Config["versioning-token"];
-        */
     }
-
-    public IConfigurationRoot ActiveConfig { get; set; }
 
     public static ListifyConfig Create(string dependenciesDirectory, string environment) {
         var result = new ListifyConfig();

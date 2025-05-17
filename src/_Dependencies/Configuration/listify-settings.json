@@ -2,10 +2,10 @@
   "ListifyBuildConfig": {
     "MollyActiveMachines": "DAVYJONES,UNICORN,BARBOSA",
     "MollyRulesVersion": "latest",
-    "MollyRulesToken": "%NEXUSCONFIG%[R::plisky[L::http://51.141.43.222:8081/repository/plisky/molly/XXVERSIONNAMEXX/defaultrules.mollyset",
-    "MollyPrimaryToken": "%NEXUSCONFIG%[R::plisky[L::http://51.141.43.222:8081/repository/plisky/primaryfiles/XXVERSIONNAMEXX/",
+    "MollyRulesToken": "%NEXUSCONFIG%[R::plisky[L::https://pliskynexus.yellowwater-365987e0.uksouth.azurecontainerapps.io/repository/plisky/molly/XXVERSIONNAMEXX/defaultrules.mollyset",
+    "MollyPrimaryToken": "%NEXUSCONFIG%[R::plisky[L::https://pliskynexus.yellowwater-365987e0.uksouth.azurecontainerapps.io/repository/plisky/primaryfiles/XXVERSIONNAMEXX/",
     "BuildScratchDirectory": "%TEMP%\\_build\\vsfbld\\",
-    "VersioningToken": "%NEXUSCONFIG%[R::plisky[L::http://51.141.43.222:8081/repository/plisky/vstore/listify.vstore",
+    "VersioningToken": "%NEXUSCONFIG%[R::plisky[L::https://pliskynexus.yellowwater-365987e0.uksouth.azurecontainerapps.io/repository/plisky/vstore/listify.vstore",
     "deployment-approach": "none",
     "FtpDeployment": {
       "ActuallyDeployFiles": true,
@@ -19,6 +19,8 @@
     }
   },
   "ListifyAppConfig": {
-    "PrimaryUrl": "http://localhost:5013/"
+    "PrimaryUrl": "http://localhost:5013/",
+    
+
   }
 }

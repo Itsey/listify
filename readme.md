@@ -42,6 +42,9 @@ Visual Studio 2022, .net 9
 Jira Board Access [here](https://plisky.atlassian.net/jira/software/projects/LFY)   
 nuke global tool [documentation here](https://nuke.build/docs/getting-started/installation)    
 
+For some of the azure commands Azure CLI and AzApp are required.
+Install-Module -Name Az.App -Scope CurrentUser -Repository PSGallery -Force
+
 #### Steps.
 
 Clone repository.

@@ -13,7 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "listify.build", "listify.bu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{28641C9F-7717-48BE-9B9B-8FBADBE9E409}"
 	ProjectSection(SolutionItems) = preProject
-		..\build\azdo_default_cd.yml = ..\build\azdo_default_cd.yml
 		..\build\azdo_default_ci.yml = ..\build\azdo_default_ci.yml
 		..\readme.md = ..\readme.md
 	EndProjectSection

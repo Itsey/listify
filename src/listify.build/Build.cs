@@ -8,6 +8,8 @@ using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
+using Nuke.Common.Tools.PowerShell;
 using Nuke.Common.Utilities.Collections;
 using Plisky.Diagnostics;
 using Plisky.Diagnostics.Listeners;
@@ -52,14 +54,29 @@ public partial class Build : NukeBuild {
         .DependsOn(Initialise)
         .After(Initialise)
         .Executes(() => {
+
+
             b.Info.Log("Build >> Wrapup >> All Done.");
             Log.Information("Build>Wrapup>  Finish - Build Process Completed.");
             b.Flush().Wait();
             System.Threading.Thread.Sleep(10);
         });
 
+
+
+    protected override void OnBuildInitialized() {
+
+
+    }
+
     protected override void OnBuildFinished() {
-        string discordHook = settings.Config.BuildSection.DiscordHookUrl;
+
+        if (settings == null) {
+            return;
+        }
+
+        string discordHook = settings?.Config?.BuildSection?.DiscordHookUrl;
+
         if (!string.IsNullOrWhiteSpace(discordHook)) {
 
             string buildTypeMessage = Build.IsLocalBuild ? $"Local [{settings.Config.ExecutingMachineName}]" : $"Server [{settings.Config.ExecutingMachineName}]";
@@ -84,7 +101,35 @@ public partial class Build : NukeBuild {
         } else {
             Log.Information("Build>Wrapup>  Discord Hook URL is not set, skipping notification.");
         }
+
+
     }
+
+    public Target NexusLive => _ => _
+      .After(Initialise)
+      .DependsOn(Initialise)
+      .Executes(() => {
+
+          string dotb = Environment.GetEnvironmentVariable("DOTB_BUILDTOOLS");
+          if (!string.IsNullOrWhiteSpace(dotb)) {
+              Log.Information($"Build> Ensure Nexus Is Live>  Build Tools Directory: {dotb}");
+
+              string nexusInitScript = Path.Combine(dotb, "scripts", "nexusInit.ps1");
+              if (File.Exists(nexusInitScript)) {
+                  PowerShellTasks.PowerShell(x =>
+                     x.SetFile(nexusInitScript)
+                     .SetFileArguments("checkup")
+                     .SetProcessToolPath("pwsh")
+                  );
+              } else {
+                  Log.Error($"Build>Initialise>  Build Tools Directory: {nexusInitScript} - Nexus Init Script not found.");
+              }
+
+          } else {
+              Log.Information("Build>Initialise>  Build Tools Directory: Not Set, no additional initialisation taking place.");
+          }
+
+      });
 
     public Target Initialise => _ => _
            .Before(ExamineStep, Wrapup)
@@ -111,11 +156,11 @@ public partial class Build : NukeBuild {
                Bilge.Alert.Online("Listify-Build");
                b.Info.Log("Listify Build Process Initialised, preparing Initialisation section.");
 
-               settings = new LocalBuildConfig();
-               settings.NonDestructive = false;
-               settings.MainProjectName = "Listify";
-
-               settings.DependenciesDirectory = Solution.Projects.First(x => x.Name == "_Dependencies").Directory;
+               settings = new LocalBuildConfig {
+                   NonDestructive = false,
+                   MainProjectName = "Listify",
+                   DependenciesDirectory = Solution.Projects.First(x => x.Name == "_Dependencies").Directory
+               };
 
                string configPath = Path.Combine(settings.DependenciesDirectory, "configuration\\");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
 using Plisky.Nuke.Fusion;
@@ -15,16 +16,30 @@ public partial class Build : NukeBuild {
         .Executes(() => {
         });
 
+    public bool ValidateSettings([NotNullWhen(true)] LocalBuildConfig sets) {
+        if (sets == null) {
+            throw new InvalidOperationException("The settings must be set");
+        }
+        if (sets.Config == null) {
+            throw new InvalidOperationException("The settings config must be set");
+        }
+        if (sets.Config.BuildSection == null) {
+            throw new InvalidOperationException("The settings build section must be set");
+        }
+        if (sets.Config.BuildSection.VersioningToken == null) {
+            throw new InvalidOperationException("The settings versioning token must be set");
+        }
+        return true;
+    }
+
     public Target QueryNextVersion => _ => _
       .After(ConstructStep)
       .DependsOn(Initialise)
       .Before(Compile)
       .Executes(() => {
 
-          if (settings == null) {
-              Log.Error("Build>ApplyVersion>Settings is null.");
-              throw new InvalidOperationException("The settings must be set");
-          }
+
+          ValidateSettings(settings);
 
           if (Solution == null) {
               Log.Error("Build>ApplyVersion>Solution is null.");
@@ -51,7 +66,7 @@ public partial class Build : NukeBuild {
           if (!string.IsNullOrEmpty(QuickVersion)) {
               var vc = new VersonifyTasks();
               vc.OverrideCommand(s => s
-                .SetVersionPersistanceValue(settings.Config.BuildSection.VersioningToken)
+                .SetVersionPersistanceValue(settings?.Config?.BuildSection?.VersioningToken)
                 .SetDebug(true)
                 .SetRoot(Solution.Directory)
                 .SetQuickValue(QuickVersion)
@@ -63,7 +78,7 @@ public partial class Build : NukeBuild {
 
     public Target ApplyVersion => _ => _
        .After(ConstructStep)
-       .DependsOn(Initialise)
+       .DependsOn(Initialise, NexusLive)
        .Before(Compile)
        .Executes(() => {
 

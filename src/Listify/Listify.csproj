@@ -5,12 +5,21 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyVersion>0.1</AssemblyVersion>
-    <Version>0.1.2.0</Version>
-    <FileVersion>0.1.2.0</FileVersion>
+    <Version>0.0.0.0</Version>
+    <FileVersion>0.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
     <PackageReference Include="Plisky.Diagnostics" Version="3.2.2" />
     <PackageReference Include="Plisky.Listeners" Version="3.2.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ListifySupport\ListifySupport.csproj" />
   </ItemGroup>
 </Project>

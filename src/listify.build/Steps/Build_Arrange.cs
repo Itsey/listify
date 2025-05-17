@@ -29,17 +29,28 @@ public partial class Build : NukeBuild {
 
             b.Verbose.Log("Clean completed, cleaning artefact directory");
 
-            settings.ArtifactsDirectory.CreateOrCleanDirectory();
+            settings?.ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
     private Target MollyCheck => _ => _
        .After(Clean, ArrangeStep)
-       .DependsOn(Initialise)
+       .DependsOn(Initialise, NexusLive)
        .Before(ConstructStep)
        .Executes(() => {
            Log.Information("Mollycoddle Structure Linting Starts.");
 
-           var mcOk = ValidateMollySettings(settings?.Config?.BuildSection?.MollyRulesToken, GitRepository.LocalDirectory.Exists());
+           if (!ValidateSettings(settings)) {
+               Log.Error("Mollycoddle: Settings Validation Failed.");
+               return;
+           }
+
+           if (GitRepository == null) {
+               Log.Error("Mollycoddle: GitRepository is null.");
+               return;
+           }
+
+
+           var mcOk = ValidateMollySettings(settings.Config.BuildSection.MollyRulesToken, GitRepository.LocalDirectory.Exists());
            if (mcOk != ValidationResult.Success) {
                Log.Error("Mollycoddle Structure Linting Skipped - Validation Failed.");
                foreach (string item in mcOk.MemberNames) {
@@ -48,7 +59,7 @@ public partial class Build : NukeBuild {
                return;
            }
 
-           Log.Verbose($"MC ({settings.Config.BuildSection.MollyRulesToken}) ({settings.Config.BuildSection.MollyPrimaryToken}) ({GitRepository.LocalDirectory})");
+           Log.Verbose($"MC ({settings?.Config?.BuildSection?.MollyRulesToken}) ({settings?.Config?.BuildSection?.MollyPrimaryToken}) ({GitRepository.LocalDirectory})");
            var mc = new MollycoddleTasks();
 
            string formatter = IsLocalBuild ? "plain" : "azdo";
@@ -64,8 +75,9 @@ public partial class Build : NukeBuild {
            Log.Information("Mollycoddle Structure Linting Completes.");
        });
 
+#nullable enable
     [Pure]
-    private ValidationResult ValidateMollySettings(string? mollyRulesToken, bool localDirectoryExists) {
+    private ValidationResult? ValidateMollySettings(string? mollyRulesToken, bool localDirectoryExists) {
         var errors = new List<string>();
 
         if (!localDirectoryExists) {
@@ -81,4 +93,5 @@ public partial class Build : NukeBuild {
         return ValidationResult.Success;
 
     }
+#nullable disable
 }
