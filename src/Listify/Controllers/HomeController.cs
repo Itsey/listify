@@ -1,21 +1,18 @@
 using System.Diagnostics;
 using Listify.Models;
 using Microsoft.AspNetCore.Mvc;
+using Plisky.Diagnostics;
 
 namespace Listify.Controllers;
 
 public class HomeController : Controller {
-    private readonly ILogger<HomeController> logger;
+    protected Bilge b = new("HomeController");
 
-    public HomeController(ILogger<HomeController> logger) {
-        this.logger = logger;
+    public HomeController() {
     }
 
     public IActionResult Index() {
-        return View();
-    }
-
-    public IActionResult Privacy() {
+        b.Info.Flow();
         return View();
     }
 

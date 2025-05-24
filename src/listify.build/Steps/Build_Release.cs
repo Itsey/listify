@@ -47,96 +47,96 @@ public partial class Build : NukeBuild {
               Timeout = TimeSpan.FromMinutes(ftpDeployment.TimeoutInMins),
           };
 
-          using (var session = new Session()) {
-              session.SessionLogPath = Path.Combine(settings.ArtifactsDirectory, "winscp.log");
+          using var session = new Session();
+          session.SessionLogPath = Path.Combine(settings.ArtifactsDirectory, "winscp.log");
 
-              int transferCount = 0;
-              int transferCountWriteFrequency = 10;
-              bool logProgress = false;
+          int transferCount = 0;
+          int transferCountWriteFrequency = 10;
+          bool logProgress = false;
 
-              session.FileTransferProgress += (sender, e) => {
-                  if (logProgress) {
-                      Log.Information($"Prg {e.OverallProgress}");
-                  }
-              };
-
-              session.FileTransferred += (sender, e) => {
-                  if (e.Error == null) {
-                      transferCount++;
-                      if (transferCount % transferCountWriteFrequency == 0) {
-                          Log.Information($"Uploaded {transferCount} files to. Most Recent {e.FileName}");
-                      }
-                  } else {
-                      Log.Error("Error uploading {0} to {1} - {2}", e.FileName, e.Destination, e.Error);
-                  }
-              };
-
-              // Connect
-              session.Open(sessionOptions);
-
-              var transferOptions = new TransferOptions();
-              transferOptions.TransferMode = TransferMode.Binary;
-              transferOptions.OverwriteMode = OverwriteMode.Overwrite;
-              if (skipWebContent) {
-                  transferOptions.FileMask = "|*/";
-                  Log.Warning("BuildContent Folder Skipped - Deployment Faster but no new JS or web content uploaded");
+          session.FileTransferProgress += (sender, e) => {
+              if (logProgress) {
+                  Log.Information($"Prg {e.OverallProgress}");
               }
+          };
 
-              TransferOperationResult transferResult;
-
-              var wd = settings.ArtifactsDirectory / "deploy_temp";
-              Log.Information($"Source ]{wd}[");
-
-              Directory.CreateDirectory(wd);
-              string aolFile = Path.Combine(settings.DependenciesDirectory, "Publishing", "app_offline.htm");
-              string webConfigFile = Path.Combine(settings.DependenciesDirectory, "Publishing", "web.config");
-
-              if (deployWebsite) {
-                  // Hosting configuration files do not align with dev files, therefore save them before redeployment.
-                  session.GetFiles(ftpDeployment.ServerPath + "*.donotcommit", wd + "\\*.donotcommit", false, transferOptions);
-                  session.GetFiles(ftpDeployment.ServerPath + "web.config", wd + "\\web.config", false, transferOptions);
-
-                  var ad = settings.ArtifactsDirectory / "publish";
-
-                  if (useAppOffline) {
-                      // Mark live site as down.
-                      Log.Warning("Taking Live Site OFFLINE.");
-
-                      if (!session.Opened) {
-                          throw new InvalidOperationException("Session not open");
-                      }
-
-                      transferResult = session.PutFiles(aolFile, ftpDeployment.ServerPath, false, transferOptions);
-                      transferResult.Check();
+          session.FileTransferred += (sender, e) => {
+              if (e.Error == null) {
+                  transferCount++;
+                  if (transferCount % transferCountWriteFrequency == 0) {
+                      Log.Information($"Uploaded {transferCount} files to. Most Recent {e.FileName}");
                   }
-
-                  if (deployAllNewFilesToSite) {
-                      // Upload all the files from publish directory
-                      Log.Information("Uploading replacement site copy.");
-
-                      transferResult = session.PutFiles(ad + "\\*.*", $"{ftpDeployment.ServerPath}/*.*", false, transferOptions);
-                      transferResult.Check();
-                  }
-
-                  transferResult = session.PutFiles(webConfigFile, ftpDeployment.ServerPath + "web.config", false, transferOptions);
-                  transferResult.Check();
-
-                  if (useAppOffline) {
-                      var rea = session.RemoveFile($"{ftpDeployment.ServerPath}/app_offline.htm");
-                      if (rea.Error != null) {
-                          Log.Error("Error removing app_offline.htm - {0}", rea.Error);
-                      } else {
-                          Log.Information("Live Site back ONLINE.");
-                      }
-                  }
+              } else {
+                  Log.Error("Error uploading {0} to {1} - {2}", e.FileName, e.Destination, e.Error);
               }
+          };
 
-              session.Close();
+          // Connect
+          session.Open(sessionOptions);
+
+          var transferOptions = new TransferOptions {
+              TransferMode = TransferMode.Binary,
+              OverwriteMode = OverwriteMode.Overwrite
+          };
+          if (skipWebContent) {
+              transferOptions.FileMask = "|*/";
+              Log.Warning("BuildContent Folder Skipped - Deployment Faster but no new JS or web content uploaded");
           }
+
+          TransferOperationResult transferResult;
+
+          var wd = settings.ArtifactsDirectory / "deploy_temp";
+          Log.Information($"Source ]{wd}[");
+
+          Directory.CreateDirectory(wd);
+          string aolFile = Path.Combine(settings.DependenciesDirectory, "Publishing", "app_offline.htm");
+          string webConfigFile = Path.Combine(settings.DependenciesDirectory, "Publishing", "web.config");
+
+          if (deployWebsite) {
+              // Hosting configuration files do not align with dev files, therefore save them before redeployment.
+              session.GetFiles(ftpDeployment.ServerPath + "*.donotcommit", wd + "\\*.donotcommit", false, transferOptions);
+              session.GetFiles(ftpDeployment.ServerPath + "web.config", wd + "\\web.config", false, transferOptions);
+
+              var ad = settings.ArtifactsDirectory / "publish";
+
+              if (useAppOffline) {
+                  // Mark live site as down.
+                  Log.Warning("Taking Live Site OFFLINE.");
+
+                  if (!session.Opened) {
+                      throw new InvalidOperationException("Session not open");
+                  }
+
+                  transferResult = session.PutFiles(aolFile, ftpDeployment.ServerPath, false, transferOptions);
+                  transferResult.Check();
+              }
+
+              if (deployAllNewFilesToSite) {
+                  // Upload all the files from publish directory
+                  Log.Information("Uploading replacement site copy.");
+
+                  transferResult = session.PutFiles(ad + "\\*.*", $"{ftpDeployment.ServerPath}/*.*", false, transferOptions);
+                  transferResult.Check();
+              }
+
+              transferResult = session.PutFiles(webConfigFile, ftpDeployment.ServerPath + "web.config", false, transferOptions);
+              transferResult.Check();
+
+              if (useAppOffline) {
+                  var rea = session.RemoveFile($"{ftpDeployment.ServerPath}/app_offline.htm");
+                  if (rea.Error != null) {
+                      Log.Error("Error removing app_offline.htm - {0}", rea.Error);
+                  } else {
+                      Log.Information("Live Site back ONLINE.");
+                  }
+              }
+          }
+
+          session.Close();
       });
 
 
-    public Target PostReleaseTag => _ => _ // This is a placeholder for a future step
+    public Target PostReleaseTag => _ => _
       .After(ReleaseStep)
       .DependsOn(Initialise)
       .Executes(() => {

@@ -5,10 +5,10 @@ using Microsoft.Playwright;
 using Plisky.Diagnostics;
 
 public class Exploratory {
-    private Bilge b;
+    protected readonly Bilge b;
 
     // These are sample Integration tests to enable the CD pipeline to test deployment succeeded.
-    private string siteURL;
+    private readonly string siteURL;
 
     public Exploratory() {
         b = new Bilge("integration-tests");
